@@ -34,8 +34,8 @@ client = TelegramClient(name_session, api_id, api_hash)
 client.start()
 
 # блок данных для WhatsApp
-ID_INSTANCE = "1101794542"
-API_TOKEN_INSTANCE = "a5d916e2cb8541c79786add5b0d2c3d7ff63ac08785f472696"
+ID_INSTANCE = "1101794868"
+API_TOKEN_INSTANCE = "fb83b702cf0e45d9b25e781b0fe5daa10488ab88e744439b8d"
 greenAPI = API.GreenApi(ID_INSTANCE, API_TOKEN_INSTANCE)
 curr_account_name = greenAPI.account.getSettings().data["wid"][:-5]
 
