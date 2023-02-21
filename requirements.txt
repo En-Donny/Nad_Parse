@@ -1,0 +1,7 @@
+aiogram
+emoji
+asyncio
+aiohttp
+telethon
+whatsapp_api_client_python
+pandas
