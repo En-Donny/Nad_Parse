@@ -27,15 +27,24 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher(bot=bot, storage=MemoryStorage())
 
 # блок данных для Телеграма
-api_id = 22288188
-api_hash = "b08a61882df9d0aec4434fb88783257b"
+api_id = 22866821
+api_hash = "4dcc3fa36638e13044afad6c538e35d4"
 name_session = "new_app"
 client = TelegramClient(name_session, api_id, api_hash)
 client.start()
+# +79938921078
+
+
+# api_id = 28384498
+# api_hash = "cf3d04fa237a90699c4645852fb81e76"
+# name_session = "new_app"
+# client = TelegramClient(name_session, api_id, api_hash)
+# client.start(password="chin3228")
+
 
 # блок данных для WhatsApp
-ID_INSTANCE = "1101794868"
-API_TOKEN_INSTANCE = "fb83b702cf0e45d9b25e781b0fe5daa10488ab88e744439b8d"
+ID_INSTANCE = "1101797078"
+API_TOKEN_INSTANCE = "7c2055d423de4f8aa41be4e313cb6037ffb14928c3d84c7895"
 greenAPI = API.GreenApi(ID_INSTANCE, API_TOKEN_INSTANCE)
 curr_account_name = greenAPI.account.getSettings().data["wid"][:-5]
 
@@ -125,20 +134,27 @@ async def callback_telegram_bot(call: types.CallbackQuery, state: FSMContext):
         global telegram_groups
         with open("TelegramParse/groups_file.txt", "r", encoding="utf-8") as f:
             telegram_groups = f.readlines()
+        if not telegram_groups:
+            key1 = types.InlineKeyboardButton(text=f'Добавить имя группы', callback_data='add_tele_group')
+            key2 = types.InlineKeyboardButton(text=f'Назад', callback_data='root_menu')
+            keyboard_add_group = types.InlineKeyboardMarkup(row_width=1).add(key1, key2)
+            msg = f"""Список групп Telegram пока пуст. Добавьте в список группы для парсинга."""
+            await bot.send_message(user_id, msg, reply_markup=keyboard_add_group)
+        else:
             for j, line in enumerate(telegram_groups):
                 group = line.replace('\n', '').split()[0]
                 file_str += f"{j+1}: {group}\n"
 
-        key1 = types.InlineKeyboardButton(text=f'Добавить имя группы', callback_data='add_tele_group')
-        key2 = types.InlineKeyboardButton(text=f'Удалить группу из списка', callback_data='del_tele_group')
-        key3 = types.InlineKeyboardButton(text=f'Назад', callback_data='root_menu')
-        keyboard_tele_menu = types.InlineKeyboardMarkup(row_width=1).add(key1, key2, key3)
-        msg = f"""Текущий список групп выглядит так:"""
-        await bot.send_message(user_id, msg)
-        msg = file_str
-        await bot.send_message(user_id, msg)
-        msg = f"""Выберите действие со списком групп"""
-        await bot.send_message(user_id, msg, reply_markup=keyboard_tele_menu)
+            key1 = types.InlineKeyboardButton(text=f'Добавить имя группы', callback_data='add_tele_group')
+            key2 = types.InlineKeyboardButton(text=f'Удалить группу из списка', callback_data='del_tele_group')
+            key3 = types.InlineKeyboardButton(text=f'Назад', callback_data='root_menu')
+            keyboard_tele_menu = types.InlineKeyboardMarkup(row_width=1).add(key1, key2, key3)
+            msg = f"""Текущий список групп выглядит так:"""
+            await bot.send_message(user_id, msg)
+            msg = file_str
+            await bot.send_message(user_id, msg)
+            msg = f"""Выберите действие со списком групп"""
+            await bot.send_message(user_id, msg, reply_markup=keyboard_tele_menu)
 
     elif command == 'add_tele_group':
         key1 = types.InlineKeyboardButton(text=f'Назад', callback_data='edit_tele_group')
@@ -162,20 +178,27 @@ async def callback_telegram_bot(call: types.CallbackQuery, state: FSMContext):
         global whatsapp_groups
         with open("WhatsAPPParse/groups_file.txt", "r", encoding="utf-8") as f:
             whatsapp_groups = f.readlines()
+        if not whatsapp_groups:
+            key1 = types.InlineKeyboardButton(text=f'Добавить имя группы', callback_data='add_whats_group')
+            key2 = types.InlineKeyboardButton(text=f'Назад', callback_data='root_menu')
+            keyboard_add_group = types.InlineKeyboardMarkup(row_width=1).add(key1, key2)
+            msg = f"""Список групп WhatsApp пока пуст. Добавьте в список группы для парсинга."""
+            await bot.send_message(user_id, msg, reply_markup=keyboard_add_group)
+        else:
             for j, line in enumerate(whatsapp_groups):
                 group = line.replace('\n', '').split()[0]
                 file_str += f"{j+1}: {group}\n"
 
-        key1 = types.InlineKeyboardButton(text=f'Добавить имя группы', callback_data='add_whats_group')
-        key2 = types.InlineKeyboardButton(text=f'Удалить группу из списка', callback_data='del_whats_group')
-        key3 = types.InlineKeyboardButton(text=f'Назад', callback_data='root_menu')
-        keyboard_tele_menu = types.InlineKeyboardMarkup(row_width=1).add(key1, key2, key3)
-        msg = f"""Текущий список групп выглядит так:"""
-        await bot.send_message(user_id, msg)
-        msg = file_str
-        await bot.send_message(user_id, msg)
-        msg = f"""Выберите действие со списком групп"""
-        await bot.send_message(user_id, msg, reply_markup=keyboard_tele_menu)
+            key1 = types.InlineKeyboardButton(text=f'Добавить имя группы', callback_data='add_whats_group')
+            key2 = types.InlineKeyboardButton(text=f'Удалить группу из списка', callback_data='del_whats_group')
+            key3 = types.InlineKeyboardButton(text=f'Назад', callback_data='root_menu')
+            keyboard_tele_menu = types.InlineKeyboardMarkup(row_width=1).add(key1, key2, key3)
+            msg = f"""Текущий список групп выглядит так:"""
+            await bot.send_message(user_id, msg)
+            msg = file_str
+            await bot.send_message(user_id, msg)
+            msg = f"""Выберите действие со списком групп"""
+            await bot.send_message(user_id, msg, reply_markup=keyboard_tele_menu)
 
     elif command == 'add_whats_group':
         key1 = types.InlineKeyboardButton(text=f'Назад', callback_data='edit_whats_group')
@@ -199,19 +222,26 @@ async def callback_telegram_bot(call: types.CallbackQuery, state: FSMContext):
         global all_words
         with open("words_for_parse.txt", "r", encoding="utf-8") as f:
             all_words = f.readlines()
+        if not all_words:
+            key1 = types.InlineKeyboardButton(text=f'Добавить имя группы', callback_data='add_parse_word')
+            key2 = types.InlineKeyboardButton(text=f'Назад', callback_data='root_menu')
+            keyboard_add_group = types.InlineKeyboardMarkup(row_width=1).add(key1, key2)
+            msg = f"""Список слов для парсинга пока пуст. Добавьте слова для парсинга в список."""
+            await bot.send_message(user_id, msg, reply_markup=keyboard_add_group)
+        else:
             for j, line in enumerate(all_words):
                 word = line.replace('\n', '')
                 file_str += f"{j + 1}: {word}\n"
-        key1 = types.InlineKeyboardButton(text=f'Добавить слово', callback_data='add_parse_word')
-        key2 = types.InlineKeyboardButton(text=f'Удалить слово', callback_data='del_parse_word')
-        key3 = types.InlineKeyboardButton(text=f'Назад', callback_data='root_menu')
-        keyboard_tele_menu = types.InlineKeyboardMarkup(row_width=1).add(key1, key2, key3)
-        msg = f"""Текущий список слов парсинга выглядит так:"""
-        await bot.send_message(user_id, msg)
-        msg = file_str
-        await bot.send_message(user_id, msg)
-        msg = f"""Выберите действие со списком слов"""
-        await bot.send_message(user_id, msg, reply_markup=keyboard_tele_menu)
+            key1 = types.InlineKeyboardButton(text=f'Добавить слово', callback_data='add_parse_word')
+            key2 = types.InlineKeyboardButton(text=f'Удалить слово', callback_data='del_parse_word')
+            key3 = types.InlineKeyboardButton(text=f'Назад', callback_data='root_menu')
+            keyboard_tele_menu = types.InlineKeyboardMarkup(row_width=1).add(key1, key2, key3)
+            msg = f"""Текущий список слов парсинга выглядит так:"""
+            await bot.send_message(user_id, msg)
+            msg = file_str
+            await bot.send_message(user_id, msg)
+            msg = f"""Выберите действие со списком слов"""
+            await bot.send_message(user_id, msg, reply_markup=keyboard_tele_menu)
 
     elif command == 'add_parse_word':
         key1 = types.InlineKeyboardButton(text=f'Назад', callback_data='edit_words_list')
@@ -346,3 +376,4 @@ async def parse_main(call, state):
 
 if __name__ == "__main__":
     executor.start_polling(dp)
+
