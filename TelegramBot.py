@@ -27,11 +27,11 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher(bot=bot, storage=MemoryStorage())
 
 # блок данных для Телеграма
-api_id = 22866821
-api_hash = "4dcc3fa36638e13044afad6c538e35d4"
-name_session = "new_app"
-client = TelegramClient(name_session, api_id, api_hash)
-client.start()
+# api_id = 22866821
+# api_hash = "4dcc3fa36638e13044afad6c538e35d4"
+# name_session = "new_app"
+# client = TelegramClient(name_session, api_id, api_hash)
+# client.start()
 # +79938921078
 
 
@@ -42,9 +42,15 @@ client.start()
 # client.start(password="chin3228")
 
 
-# блок данных для WhatsApp
-ID_INSTANCE = "1101797078"
-API_TOKEN_INSTANCE = "7c2055d423de4f8aa41be4e313cb6037ffb14928c3d84c7895"
+# # блок данных для WhatsApp (Надежда)
+# ID_INSTANCE = "1101797078"
+# API_TOKEN_INSTANCE = "7c2055d423de4f8aa41be4e313cb6037ffb14928c3d84c7895"
+# greenAPI = API.GreenApi(ID_INSTANCE, API_TOKEN_INSTANCE)
+# curr_account_name = greenAPI.account.getSettings().data["wid"][:-5]
+
+# блок данных для WhatsApp (Моё)
+ID_INSTANCE = "1101794868"
+API_TOKEN_INSTANCE = "fb83b702cf0e45d9b25e781b0fe5daa10488ab88e744439b8d"
 greenAPI = API.GreenApi(ID_INSTANCE, API_TOKEN_INSTANCE)
 curr_account_name = greenAPI.account.getSettings().data["wid"][:-5]
 
@@ -223,7 +229,7 @@ async def callback_telegram_bot(call: types.CallbackQuery, state: FSMContext):
         with open("words_for_parse.txt", "r", encoding="utf-8") as f:
             all_words = f.readlines()
         if not all_words:
-            key1 = types.InlineKeyboardButton(text=f'Добавить имя группы', callback_data='add_parse_word')
+            key1 = types.InlineKeyboardButton(text=f'Добавить слово', callback_data='add_parse_word')
             key2 = types.InlineKeyboardButton(text=f'Назад', callback_data='root_menu')
             keyboard_add_group = types.InlineKeyboardMarkup(row_width=1).add(key1, key2)
             msg = f"""Список слов для парсинга пока пуст. Добавьте слова для парсинга в список."""
@@ -367,7 +373,8 @@ async def parse_main(call, state):
     await state.set_state("on_working")
     with open("words_for_parse.txt", "r", encoding="utf-8") as f:
         list_of_words = [word.replace("\n", "") for word in f]
-    tasks_lst = [loopl.create_task(main_parse_telegram(client, list_of_words)),
+    tasks_lst = [
+        # loopl.create_task(main_parse_telegram(client, list_of_words)),
                  loopl.create_task(main_parser_whatsapp(greenAPI, curr_account_name, list_of_words)),
                  loopl.create_task(callback_telegram_bot(call=new_call, state=state))]
     loopl.run_until_complete(asyncio.wait(tasks_lst))
@@ -376,4 +383,3 @@ async def parse_main(call, state):
 
 if __name__ == "__main__":
     executor.start_polling(dp)
-
