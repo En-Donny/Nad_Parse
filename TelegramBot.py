@@ -268,17 +268,17 @@ async def callback_telegram_bot(call: types.CallbackQuery, state: FSMContext):
     elif command == 'get_files':
         msg = f'''Вот результаты парсинга сообщений'''
         await bot.send_message(user_id, msg)
-        with open("TelegramParse/chats.csv", "r", encoding="utf-8") as f:
-            tele_doc = f.read()
+#         with open("TelegramParse/chats.csv", "r", encoding="utf-8") as f:
+#             tele_doc = f.read()
         with open("WhatsAPPParse/chats.csv", "r", encoding="utf-8") as f:
             whats_doc = f.read()
-        if tele_doc:
-            df_tele = pd.read_csv("TelegramParse/chats.csv")
-            df_tele.to_excel("chatsTelegram.xls", index=False)
-            tele_parse = InputFile("chatsTelegram.xls")
-            await bot.send_document(chat_id=user_id, document=tele_parse)
-        else:
-            await bot.send_message(user_id, "Файл для Telegram пока пуст")
+#         if tele_doc:
+#             df_tele = pd.read_csv("TelegramParse/chats.csv")
+#             df_tele.to_excel("chatsTelegram.xls", index=False)
+#             tele_parse = InputFile("chatsTelegram.xls")
+#             await bot.send_document(chat_id=user_id, document=tele_parse)
+#         else:
+#             await bot.send_message(user_id, "Файл для Telegram пока пуст")
         if whats_doc:
             df_whats = pd.read_csv("WhatsAPPParse/chats.csv")
             df_whats.to_excel("chatsWhatsApp.xls", index=False)
